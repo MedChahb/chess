@@ -13,12 +13,13 @@ public class ChessBoard extends JFrame{
     private List<ChessPiece> BpiecesOnBoard=new ArrayList<ChessPiece>();  
     private Player whitePlayer, blackPlayer;
     private JPanel boardPanel;
+    private String gameMode;
     
     private final int BOARD_SIZE = 8;
     private final int CELL_SIZE = 80;
     
     // creation de l'échiquier
-    public ChessBoard(Player Wp, Player Bp) {
+    public ChessBoard(Player Wp, Player Bp, String mode) {
     	
         setTitle("Chess");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -43,6 +44,8 @@ public class ChessBoard extends JFrame{
                 boardPanel.add(cellPanel);
             }
         }
+        
+        // !!!! ne pas oublier d'ajouter les Piece féérique
         
         // ----- placing Pawns (blanc puis noir)
         Player p = Wp;
@@ -172,14 +175,14 @@ public class ChessBoard extends JFrame{
         
         Wp.setPiecesLeft(WpiecesOnBoard);
         Bp.setPiecesLeft(BpiecesOnBoard);
-        this.whitePlayer = Wp; this.blackPlayer = Bp;
+        this.whitePlayer = Wp; this.blackPlayer = Bp; this.gameMode = mode;
         
         
     }
 
-    public Player getWhitePlayer() {return whitePlayer;}
-	public Player getBlackPlayer() {return blackPlayer;}
-
+    public Player getWhitePlayer() {return this.whitePlayer;}
+	public Player getBlackPlayer() {return this.blackPlayer;}
+	public String getGameMode() { return this.gameMode;}
 
 	public void movePiece(Player player, int startX, int startY, int endX, int endY) {
         // Check if the move is valid and update the board

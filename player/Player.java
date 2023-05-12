@@ -52,6 +52,8 @@ public class Player {
     	return false;
     }
     
+    public String getPlayerName() { return this.name_;}
+    
     public List<ChessPiece> getPiecesLest(){ return this.piecesLeft;}
     public void setPiecesLeft(List<ChessPiece> pl) {
     	this.piecesLeft = pl;
