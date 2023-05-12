@@ -34,7 +34,7 @@ public class ChessBoard extends JFrame{
                 setResizable(false); // Make the window unsizable
 
                 // Alternate des couleurs (j'ai pris les couleurs de lichess.org)
-                if ((row + col) % 2 == 0) { //trouver la couleur de chaque CELL en term de l'iteration actuelle
+                if ((row + col) % 2 == 0) { // White si row et col ont la mm parité, sinon Black
                     cellPanel.setBackground(new Color(240,217,181));
                 } else {
                     cellPanel.setBackground(new Color(181,136,99));
