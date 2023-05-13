@@ -18,6 +18,8 @@ public class ChessBoard extends JFrame implements MouseListener{
     private JPanel boardPanel;
     private ChessPiece PieceClicked;
     
+	private ChessPiece[][] PiecesOnBoard = new ChessPiece[8][8];
+			
     private static int turn = 0; // si 0 c'est au White à jouer, 1 Black
     
     private final int BOARD_SIZE = 8;
@@ -25,6 +27,9 @@ public class ChessBoard extends JFrame implements MouseListener{
     
     // creation de l'échiquier
     public ChessBoard(Player Wp, Player Bp, String mode) {
+    	
+ 
+    	
     	this.gameMode = mode;
     	
     	addMouseListener(this);
@@ -66,7 +71,7 @@ public class ChessBoard extends JFrame implements MouseListener{
         	if(i==8) {p = Bp; PositionRow = 1;color = Color.BLACK;} // on place les pieces noirs 
         	
         	if ((gameMode.equalsIgnoreCase("Pieces Féériques")) && (i==3 || i==11)) pawn = new FeeriqPawn(this, p, PositionRow, i%8);
-        	else pawn = new Queen(this, p, PositionRow, i%8);
+        	else pawn = new Pawn(this, p, PositionRow, i%8);
 	        if(p.PlayerisWhite()) {this.WpiecesOnBoard.add(pawn);} else {this.BpiecesOnBoard.add(pawn);}
 		    JPanel cellPanel = (JPanel) boardPanel.getComponent(PositionRow * BOARD_SIZE + i%8);
 	
