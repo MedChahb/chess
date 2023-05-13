@@ -2,18 +2,23 @@ package chessBoard;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
 import pieces.*;
-import player.Player;
+import player.*;
 
-public class ChessBoard extends JFrame{
+public class ChessBoard extends JFrame implements MouseListener{
     private List<ChessPiece> WpiecesOnBoard=new ArrayList<ChessPiece>();
     private List<ChessPiece> BpiecesOnBoard=new ArrayList<ChessPiece>();  
     private Player whitePlayer, blackPlayer;
     private JPanel boardPanel;
     private String gameMode;
+    private ChessPiece PieceClicked;
+    
+    private static int turn = 0; // si 0 c'est au White à jouer, 1 Black
     
     private final int BOARD_SIZE = 8;
     private final int CELL_SIZE = 80; 
@@ -21,6 +26,8 @@ public class ChessBoard extends JFrame{
     // creation de l'échiquier
     public ChessBoard(Player Wp, Player Bp, String mode) {
     	this.gameMode = mode;
+    	
+    	addMouseListener(this);
     	
         setTitle("Chess");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -194,9 +201,104 @@ public class ChessBoard extends JFrame{
 	public Player getBlackPlayer() {return this.blackPlayer;}
 	public String getGameMode() { return this.gameMode;}
 
-	public void movePiece(Player player, int startX, int startY, int endX, int endY) {
-        // Check if the move is valid and update the board
+
+	public ChessPiece PieceClicked(List<ChessPiece> listPieces, Move startMove) {
+		//cherche dans la liste la piece de coord startMove
+		for(ChessPiece piece : listPieces) {
+			if(piece.getX() == startMove.getX() && piece.getY() == startMove.getY()) {
+				return piece;
+			}
+		}
+		return null;
+	}
+	
+	public void repaintBoard() {
+		for (int row = 0; row < BOARD_SIZE; row++) {
+            for (int col = 0; col < BOARD_SIZE; col++) {
+                JPanel cellPanel = new JPanel();
+                cellPanel.setPreferredSize(new Dimension(CELL_SIZE, CELL_SIZE));
+                setResizable(false); // Make the window unsizable
+
+                // Alternate des couleurs (j'ai pris les couleurs de lichess.org)
+                if ((row + col) % 2 == 0) { // White si row et col ont la mm parité, sinon Black
+                    cellPanel.setBackground(new Color(232,215,184));
+                } else {
+                    cellPanel.setBackground(new Color(181,136,99));
+                }
+
+                boardPanel.add(cellPanel);
+            }
+        }
+	}
+	
+	// return la piece clické selon le tour de jeu.
+	// null si pas de piece sur la souris
+	public ChessPiece PlayerClickedPiece(Move startMove) {
+		if (turn == 0) {
+			return this.PieceClicked(WpiecesOnBoard, startMove);
+		}
+		else return this.PieceClicked(BpiecesOnBoard, startMove);
+	}
+
+		
+	
+	public void mouseClicked(MouseEvent e) {
+		maskRange();
+		Move move =  Move.mouseCoordToBoardCoord(e.getX(), e.getY());
+		PieceClicked = PlayerClickedPiece(move);
+		showRangePiece();
+	}
+	
+	public void showRangePiece() {
+		if(PieceClicked!= null) {
+			List<Move> range = PieceClicked.PieceMoves();
+			for(Move m : range) {
+				JPanel cellPanel = (JPanel) boardPanel.getComponent(m.getY() * 8 + m.getX());
+				cellPanel.setBackground(Color.RED);
+				cellPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+			}
+		}
+		
     }
+	
+	public void maskRange() {
+		if(PieceClicked!= null) {
+			List<Move> range = PieceClicked.PieceMoves();
+			for(Move m : range) {
+				JPanel cellPanel = (JPanel) boardPanel.getComponent(m.getY() * 8 + m.getX());
+				if ((m.getY() + m.getX()) % 2 == 0) { 
+                    cellPanel.setBackground(new Color(232,215,184));
+                } else {
+                    cellPanel.setBackground(new Color(181,136,99));
+                }
+				cellPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 0));
+				
+			}
+		}
+		
+	}
+	
+	public void movePiece(Player player, Move startMove) {
+		//
+    }
+	
+	@Override
+	public void mousePressed(MouseEvent e) {
+	
+	}
+	@Override
+	public void mouseReleased(MouseEvent e) {
+
+		
+	}
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		
+	}
+	@Override
+	public void mouseExited(MouseEvent e) {
+		
+	}
 
     // Other methods for game logic, such as checking for checkmate, stalemate, etc.
 }

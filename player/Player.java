@@ -14,7 +14,6 @@ public class Player {
     private boolean isStalemate;
     private List<ChessPiece> piecesLeft;
     
-    private static int turn = 0; // si 0 c'est au White à jouer, 1 Black
 
     public Player(String name, String color) {
         this.name_ = name;
