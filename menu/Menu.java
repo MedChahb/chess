@@ -64,7 +64,11 @@ public class Menu extends JFrame implements ActionListener {
         	this.isSubmitted = true;
         	if(mode2.isSelected()) {
         		this.mode = "Pieces Féériques";
-        		JOptionPane.showMessageDialog(this, "Description du GameMode à ajouter ici");
+        		JOptionPane.showMessageDialog(this, "Dans ce mode de jeu, vous aller jouer avec des pièces féériques: \n"
+        											+ "    Princess : symbolisé par 'FPr', combine les mouvements d'un cavalier et d'un fou.\n"
+        											+ "    Sauterelle : symbolisé par 'FQs', saute par-dessus les pièces.\n"
+        											+ "    Petit Fou : symbolisé par 'Fbi', fou de porté limité\n"
+        											+ "    Pour le roi : symbolisé par 'FP', piont du roi qui capture les pièces se situant sur de ses cases de déplacement.\n");
         	}
         	else {this.mode = "Standard";} // si aucun des boutons radio est séléctioné, alors standard
             dispose();

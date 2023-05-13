@@ -16,10 +16,11 @@ public class ChessBoard extends JFrame{
     private String gameMode;
     
     private final int BOARD_SIZE = 8;
-    private final int CELL_SIZE = 80;
+    private final int CELL_SIZE = 80; 
     
     // creation de l'échiquier
     public ChessBoard(Player Wp, Player Bp, String mode) {
+    	this.gameMode = mode;
     	
         setTitle("Chess");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -36,7 +37,7 @@ public class ChessBoard extends JFrame{
 
                 // Alternate des couleurs (j'ai pris les couleurs de lichess.org)
                 if ((row + col) % 2 == 0) { // White si row et col ont la mm parité, sinon Black
-                    cellPanel.setBackground(new Color(240,217,181));
+                    cellPanel.setBackground(new Color(232,215,184));
                 } else {
                     cellPanel.setBackground(new Color(181,136,99));
                 }
@@ -51,10 +52,13 @@ public class ChessBoard extends JFrame{
         Player p = Wp;
         Color color = Color.WHITE;
         int PositionRow = 6;
+        ChessPiece pawn;
+        
         for(int i=0; i<16; i++) { 	
         	if(i==8) {p = Bp; PositionRow = 1;color = Color.BLACK;} // on place les pieces noirs 
         	
-	        ChessPiece pawn = new Pawn(this, p, PositionRow, i%8);
+        	if ((gameMode.equalsIgnoreCase("Pieces Féériques")) && (i==3 || i==11)) pawn = new FeeriqPawn(this, p, PositionRow, i%8);
+        	else pawn = new Pawn(this, p, PositionRow, i%8);
 	        if(p.PlayerisWhite()) {this.WpiecesOnBoard.add(pawn);} else {this.BpiecesOnBoard.add(pawn);}
 		    JPanel cellPanel = (JPanel) boardPanel.getComponent(PositionRow * BOARD_SIZE + i%8);
 	
@@ -89,12 +93,14 @@ public class ChessBoard extends JFrame{
         p = Wp;
         color = Color.WHITE;
         PositionRow = 7;
+        ChessPiece knight;
         
         for(int i=0; i<4; i++) {
         	if(i==2) {p = Bp; PositionRow = 0;color = Color.BLACK;} // on place les pieces noirs
         	
         	int PositionColumn = ((i%2==0)?1 : 6);
-        	ChessPiece knight = new Knight(this, p, PositionRow, PositionColumn); 
+        	if(gameMode.equalsIgnoreCase("standard")) { knight = new Knight(this, p, PositionRow, PositionColumn); }
+        	else {knight = new FeeriqPrincesse(this, p, PositionRow, PositionColumn) ;}
         	if(p.PlayerisWhite()) {this.WpiecesOnBoard.add(knight);} else {this.BpiecesOnBoard.add(knight);}
 		    JPanel cellPanel = (JPanel) boardPanel.getComponent(PositionRow * BOARD_SIZE + PositionColumn);
 	
@@ -110,12 +116,14 @@ public class ChessBoard extends JFrame{
         p = Wp;
         color = Color.WHITE;
         PositionRow = 7;
+        ChessPiece bishop;
         
         for(int i=0; i<4; i++) {
         	if(i==2) {p = Bp; PositionRow = 0;color = Color.BLACK;} // on place les pieces noirs
         	
         	int PositionColumn = ((i%2==0)?2 : 5);
-        	ChessPiece bishop = new Bishop(this, p, PositionRow, PositionColumn); 
+        	if (gameMode.equalsIgnoreCase("standard")) bishop = new Bishop(this, p, PositionRow, PositionColumn); 
+        	else bishop = new FeeriqBishop(this, p, PositionRow, PositionColumn); 
         	if(p.PlayerisWhite()) {this.WpiecesOnBoard.add(bishop);} else {this.BpiecesOnBoard.add(bishop);}
 		    JPanel cellPanel = (JPanel) boardPanel.getComponent(PositionRow * BOARD_SIZE + PositionColumn);
 	
@@ -150,12 +158,14 @@ public class ChessBoard extends JFrame{
         p = Wp;
         color = Color.WHITE;
         PositionRow = 7;
+        ChessPiece queen;
         
         for(int i=0; i<2; i++) {
         	if(i==1) {p = Bp; PositionRow = 0;color = Color.BLACK;} // on place les pieces noirs
         	
         	int PositionColumn = 4;
-        	ChessPiece queen = new Queen(this, p, PositionRow, PositionColumn); 
+        	if(gameMode.equalsIgnoreCase("standard")) queen = new Queen(this, p, PositionRow, PositionColumn); 
+        	else queen = new FeeriqSauterelle(this, p, PositionRow, PositionColumn);
         	if(p.PlayerisWhite()) {this.WpiecesOnBoard.add(queen);} else {this.BpiecesOnBoard.add(queen);}
 		    JPanel cellPanel = (JPanel) boardPanel.getComponent(PositionRow * BOARD_SIZE + PositionColumn);
 	
@@ -175,7 +185,7 @@ public class ChessBoard extends JFrame{
         
         Wp.setPiecesLeft(WpiecesOnBoard);
         Bp.setPiecesLeft(BpiecesOnBoard);
-        this.whitePlayer = Wp; this.blackPlayer = Bp; this.gameMode = mode;
+        this.whitePlayer = Wp; this.blackPlayer = Bp;
         
         
     }
