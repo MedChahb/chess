@@ -200,6 +200,8 @@ public class ChessBoard extends JFrame implements MouseListener{
     public Player getWhitePlayer() {return this.whitePlayer;}
 	public Player getBlackPlayer() {return this.blackPlayer;}
 	public String getGameMode() { return this.gameMode;}
+	public List<ChessPiece> getWpiecesOnBoard(){ return this.WpiecesOnBoard;}
+	public List<ChessPiece> getBpiecesOnBoard(){ return this.BpiecesOnBoard;}
 
 
 	public ChessPiece PieceClicked(List<ChessPiece> listPieces, Move startMove) {
