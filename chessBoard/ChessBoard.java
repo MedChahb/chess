@@ -12,10 +12,10 @@ import player.*;
 
 public class ChessBoard extends JFrame implements MouseListener{
     private List<ChessPiece> WpiecesOnBoard=new ArrayList<ChessPiece>();
-    private List<ChessPiece> BpiecesOnBoard=new ArrayList<ChessPiece>();  
+    private List<ChessPiece> BpiecesOnBoard=new ArrayList<ChessPiece>();
+    private String gameMode;
     private Player whitePlayer, blackPlayer;
     private JPanel boardPanel;
-    private String gameMode;
     private ChessPiece PieceClicked;
     
     private static int turn = 0; // si 0 c'est au White à jouer, 1 Black
@@ -45,7 +45,8 @@ public class ChessBoard extends JFrame implements MouseListener{
                 // Alternate des couleurs (j'ai pris les couleurs de lichess.org)
                 if ((row + col) % 2 == 0) { // White si row et col ont la mm parité, sinon Black
                     cellPanel.setBackground(new Color(232,215,184));
-                } else {
+                } 
+                else {
                     cellPanel.setBackground(new Color(181,136,99));
                 }
 
@@ -65,7 +66,7 @@ public class ChessBoard extends JFrame implements MouseListener{
         	if(i==8) {p = Bp; PositionRow = 1;color = Color.BLACK;} // on place les pieces noirs 
         	
         	if ((gameMode.equalsIgnoreCase("Pieces Féériques")) && (i==3 || i==11)) pawn = new FeeriqPawn(this, p, PositionRow, i%8);
-        	else pawn = new Pawn(this, p, PositionRow, i%8);
+        	else pawn = new Queen(this, p, PositionRow, i%8);
 	        if(p.PlayerisWhite()) {this.WpiecesOnBoard.add(pawn);} else {this.BpiecesOnBoard.add(pawn);}
 		    JPanel cellPanel = (JPanel) boardPanel.getComponent(PositionRow * BOARD_SIZE + i%8);
 	
@@ -214,24 +215,6 @@ public class ChessBoard extends JFrame implements MouseListener{
 		return null;
 	}
 	
-	public void repaintBoard() {
-		for (int row = 0; row < BOARD_SIZE; row++) {
-            for (int col = 0; col < BOARD_SIZE; col++) {
-                JPanel cellPanel = new JPanel();
-                cellPanel.setPreferredSize(new Dimension(CELL_SIZE, CELL_SIZE));
-                setResizable(false); // Make the window unsizable
-
-                // Alternate des couleurs (j'ai pris les couleurs de lichess.org)
-                if ((row + col) % 2 == 0) { // White si row et col ont la mm parité, sinon Black
-                    cellPanel.setBackground(new Color(232,215,184));
-                } else {
-                    cellPanel.setBackground(new Color(181,136,99));
-                }
-
-                boardPanel.add(cellPanel);
-            }
-        }
-	}
 	
 	// return la piece clické selon le tour de jeu.
 	// null si pas de piece sur la souris
@@ -253,6 +236,8 @@ public class ChessBoard extends JFrame implements MouseListener{
 	
 	public void showRangePiece() {
 		if(PieceClicked!= null) {
+			//reinisitlisation des pieces que Piececlicked peut capturer à chaque click
+			PieceClicked.emptyToCapture();
 			List<Move> range = PieceClicked.PieceMoves();
 			for(Move m : range) {
 				JPanel cellPanel = (JPanel) boardPanel.getComponent(m.getY() * 8 + m.getX());
@@ -260,11 +245,10 @@ public class ChessBoard extends JFrame implements MouseListener{
 				cellPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 			}
 		}
-		
     }
-	
 	public void maskRange() {
 		if(PieceClicked!= null) {
+			PieceClicked.emptyToCapture();
 			List<Move> range = PieceClicked.PieceMoves();
 			for(Move m : range) {
 				JPanel cellPanel = (JPanel) boardPanel.getComponent(m.getY() * 8 + m.getX());
@@ -279,7 +263,6 @@ public class ChessBoard extends JFrame implements MouseListener{
 		}
 		
 	}
-	
 	public void movePiece(Player player, Move startMove) {
 		//
     }
