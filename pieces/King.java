@@ -13,10 +13,6 @@ public class King extends ChessPiece{
 		super(board, p, y, x);
 	}
 
-	public boolean isValidMove(int endX, int endY) {
-		return true;
-	}
-
 	public String toString() {
 		return "K";
 	}
@@ -24,14 +20,15 @@ public class King extends ChessPiece{
 	@Override
 	public List<Move> PieceMoves() {
 		List<Move> Moves = new ArrayList<>();
-		Moves.add(new Move(y_+1, x_));
-		Moves.add(new Move(y_-1, x_));
-		Moves.add(new Move(y_-1, x_-1));
-		Moves.add(new Move(y_-1, x_+1));
-		Moves.add(new Move(y_+1, x_+1));
-		Moves.add(new Move(y_-1, x_+1));
-		Moves.add(new Move(y_, x_+1));
-		Moves.add(new Move(y_, x_-1));
+		Move move;
+		for(int i=-1; i<2; i++) {
+			for (int j=-1; j<2; j++) {
+				if(i!=0 || j!=0) {
+					move = new Move(x_+i, y_+j);
+					if(isValidMove(move)) Moves.add(move);
+				}
+			}
+		}
 		return Moves;
 	}
 

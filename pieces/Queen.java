@@ -1,6 +1,7 @@
 package pieces;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 import chessBoard.ChessBoard;
 import player.Move;
@@ -22,8 +23,10 @@ public class Queen extends ChessPiece{
 
 	@Override
 	public List<Move> PieceMoves() {
-		// TODO Auto-generated method stub
-		return null;
+		ChessPiece b = new Bishop(board_, player_, y_, x_);
+		ChessPiece r = new Rook(board_, player_, y_, x_);
+		
+		return Stream.concat(b.PieceMoves().stream(), r.PieceMoves().stream()).toList();
 	}
 
 }

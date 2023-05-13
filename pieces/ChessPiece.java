@@ -11,27 +11,35 @@ public abstract class ChessPiece {
 	protected Player player_;
 	protected int x_,y_;
 	
+	private boolean isRangeShowing = false;
+
 	
 	public ChessPiece(ChessBoard board, Player p, int y, int x) {
 		this.board_ = board;this.player_ = p; y_ = y; this.x_ = x;
 	}
 	
 	//getters & setters
-	public int getX_() {return x_;}
-	public void setX_(int x) {this.x_ = x;}
+	public int getX() {return x_;}
+	public void setX(int x) {this.x_ = x;}
 
-	public int getY_() {return y_;}
-	public void setY_(int y) {this.y_ = y;}
+	public int getY() {return y_;}
+	public void setY(int y) {this.y_ = y;}
 
 	
 	public ChessBoard getBoard() { return this.board_;}
 	
 	public Player getPlayer() {return this.player_;}
-
-	public Player getPlayer_() {return player_;}
-
 	
-	public abstract boolean isValidMove(int endX, int endY);
+	public  boolean isRangeShowing() {return isRangeShowing;}
+	public  void setRangeShowing(boolean isShowing) {isRangeShowing = isShowing;}
+
+	public boolean isValidMove(Move move) {
+		return moveInBoard(move) && true; // to change 
+	}
+	
+	public boolean moveInBoard(Move move) {
+		return 0<= move.getX() && move.getX()<=7 && 0<=move.getY() && move.getY()<=7;
+	}
 	public abstract List<Move> PieceMoves();
 	
 	public abstract String toString();

@@ -12,24 +12,24 @@ public class Pawn extends ChessPiece{
 		super(board, p, y, x);
 	}
 
-	@Override
-	public boolean isValidMove(int endX, int endY) {
-		return true;
-	}
-
-
-
+	
 	@Override
 	// a voir les move non valides
 	public List<Move> PieceMoves() {
 		List<Move> Moves = new ArrayList<>();
+		Move move;
 		if(player_.PlayerisWhite()) {
-			Moves.add(new Move(y_-1, x_));
-			Moves.add(new Move(y_-2, x_));
+			move = new Move(x_, y_-1);
+			if(isValidMove(move)) Moves.add(move);
+			move = new Move(x_, y_-2);
+			if(isValidMove(move)) Moves.add(move);
+
 		}
 		else {
-			Moves.add(new Move(y_+1, x_));
-			Moves.add(new Move(y_+2, x_));
+			move = new Move(x_, y_+1);
+			if(isValidMove(move)) Moves.add(move);
+			move = new Move(x_, y_+2);
+			if(isValidMove(move)) Moves.add(move);
 		}
 		return Moves;
 	}

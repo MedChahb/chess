@@ -1,5 +1,6 @@
 package pieces;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import chessBoard.ChessBoard;
@@ -12,9 +13,6 @@ public class Knight extends ChessPiece{
 		super(board, p, y, x);
 	}
 
-	public boolean isValidMove(int endX, int endY) {
-		return true;
-	}
 
 	public String toString() {
 		return "Kn";
@@ -22,8 +20,18 @@ public class Knight extends ChessPiece{
 
 	@Override
 	public List<Move> PieceMoves() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Move> Moves = new ArrayList<>();
+		Move move;
+		// le chevalier se deplace suivant une cercle de rayon 5. (L 1,2)
+		for (int i = -2; i <= 2; i++) {
+		    for (int j = -2; j <= 2; j++) {
+		        if (i*i+j*j == 5) {
+		        	move = new Move(x_+i, y_+j);
+		    		if(isValidMove(move)) Moves.add(move);
+		        }
+		    }
+		}
+		return Moves;
 	}
-
 }
+

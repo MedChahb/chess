@@ -1,5 +1,6 @@
 package pieces;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import chessBoard.ChessBoard;
@@ -12,18 +13,23 @@ public class Rook extends ChessPiece{
 		super(board, p, y, x);
 	}
 
-	public boolean isValidMove(int endX, int endY) {
-		return true;
-	}
-
+	
 	public String toString() {
 		return "R";
 	}
 
-	@Override
 	public List<Move> PieceMoves() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Move> moves = new ArrayList<>();
+		Move move;
+		for(int i=-7; i<8; i++) {
+			if(i!=0) {
+			move = new Move(x_, y_+i);
+			if(isValidMove(move)) moves.add(move);
+			move = new Move(x_+i, y_);
+			if(isValidMove(move)) moves.add(move);
+			}
+		}
+		return moves;
 	}
 
 }

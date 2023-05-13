@@ -1,5 +1,6 @@
 package pieces;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import chessBoard.ChessBoard;
@@ -20,10 +21,16 @@ public class Bishop extends ChessPiece{
 		return "B";
 	}
 
-	@Override
 	public List<Move> PieceMoves() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Move> Moves = new ArrayList<>();
+		Move move;
+		for(int i=-7; i<8; i++) {
+			move = new Move(x_+i, y_+i);
+			if(isValidMove(move)) Moves.add(move);
+			move = new Move(x_+i, y_-i);
+			if(isValidMove(move)) Moves.add(move);
+		}
+		return Moves;
 	}
 
 }
