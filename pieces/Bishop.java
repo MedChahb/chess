@@ -13,9 +13,6 @@ public class Bishop extends ChessPiece{
 		super(board, p, y, x);
 	}
 
-	public boolean isValidMove(int endX, int endY) {
-		return true;
-	}
 
 	public String toString() {
 		return "B";
@@ -27,21 +24,41 @@ public class Bishop extends ChessPiece{
 		for(int i=1; i<8; i++) {
 			move = new Move(x_+i, y_-i);
 			if(cellTakenAlly(move)) break;
+			if(cellTakenEnemy(move)) {
+				toCapture.add(move);
+				Moves.add(move);
+				break;
+			}
 			if(moveInBoard(move)) Moves.add(move);
 		}
 		for(int i=1; i<8; i++) {
 			move = new Move(x_-i, y_+i);
 			if(cellTakenAlly(move)) break;
+			if(cellTakenEnemy(move)) {
+				toCapture.add(move);
+				Moves.add(move);
+				break;
+			}
 			if(moveInBoard(move)) Moves.add(move);
 		}
 		for(int i=1; i<8; i++) {
 			move = new Move(x_+i, y_+i);
 			if(cellTakenAlly(move)) break;
+			if(cellTakenEnemy(move)) {
+				toCapture.add(move);
+				Moves.add(move);
+				break;
+			}
 			if(moveInBoard(move)) Moves.add(move);
 		}
 		for(int i=1; i<8; i++) {
 			move = new Move(x_-i, y_-i);
 			if(cellTakenAlly(move)) break;
+			if(cellTakenEnemy(move)) {
+				toCapture.add(move);
+				Moves.add(move);
+				break;
+			}
 			if(moveInBoard(move)) Moves.add(move);
 		}
 		return Moves;

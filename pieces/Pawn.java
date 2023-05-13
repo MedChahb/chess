@@ -14,22 +14,22 @@ public class Pawn extends ChessPiece{
 
 	
 	@Override
-	// a voir les move non valides
+	// à ajouter les pieces capturables du piont
 	public List<Move> PieceMoves() {
 		List<Move> Moves = new ArrayList<>();
 		Move move;
 		if(player_.PlayerisWhite()) {
 			move = new Move(x_, y_-1);
-			if(isValidMove(move)) Moves.add(move);
+			if(moveInBoard(move)) Moves.add(move);
 			move = new Move(x_, y_-2);
-			if(isValidMove(move)) Moves.add(move);
+			if(moveInBoard(move)) Moves.add(move);
 
 		}
 		else {
 			move = new Move(x_, y_+1);
-			if(isValidMove(move)) Moves.add(move);
+			if(moveInBoard(move)) Moves.add(move);
 			move = new Move(x_, y_+2);
-			if(isValidMove(move)) Moves.add(move);
+			if(moveInBoard(move)) Moves.add(move);
 		}
 		return Moves;
 	}

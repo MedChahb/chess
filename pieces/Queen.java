@@ -26,7 +26,12 @@ public class Queen extends ChessPiece{
 		ChessPiece b = new Bishop(board_, player_, y_, x_);
 		ChessPiece r = new Rook(board_, player_, y_, x_);
 		
-		return Stream.concat(b.PieceMoves().stream(), r.PieceMoves().stream()).toList();
+		List<Move> bMoves = b.PieceMoves();
+		List<Move> rMoves = r.PieceMoves();
+		
+		this.toCapture = Stream.concat(b.getToCapture().stream(), r.getToCapture().stream()).toList();
+		
+		return Stream.concat(bMoves.stream(), rMoves.stream()).toList();
 	}
 
 }

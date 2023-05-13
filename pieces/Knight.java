@@ -28,6 +28,7 @@ public class Knight extends ChessPiece{
 		        if (i*i+j*j == 5) {
 		        	move = new Move(x_+i, y_+j);
 		    		if(isValidMove(move)) Moves.add(move);
+		    		
 		        }
 		    }
 		}

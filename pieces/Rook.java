@@ -19,29 +19,49 @@ public class Rook extends ChessPiece{
 	}
 
 	public List<Move> PieceMoves() {
-		List<Move> moves = new ArrayList<>();
+		List<Move> Moves = new ArrayList<>();
 		Move move;
 		for(int i=1; i<8; i++) {
 			move = new Move(x_, y_-i);
 			if(cellTakenAlly(move)) break;
-			if(moveInBoard(move)) moves.add(move);
+			if(cellTakenEnemy(move)) {
+				toCapture.add(move);
+				Moves.add(move);
+				break;
+			}
+			if(moveInBoard(move)) Moves.add(move);
 		}
 		for(int i=1; i<8; i++) {
 			move = new Move(x_, y_+i);
 			if(cellTakenAlly(move)) break;
-			if(moveInBoard(move)) moves.add(move);
+			if(cellTakenEnemy(move)) {
+				toCapture.add(move);
+				Moves.add(move);
+				break;
+			}
+			if(moveInBoard(move)) Moves.add(move);
 		}
 		for(int i=1; i<8; i++) {
 			move = new Move(x_-i, y_);
 			if(cellTakenAlly(move)) break;
-			if(moveInBoard(move)) moves.add(move);
+			if(cellTakenEnemy(move)) {
+				toCapture.add(move);
+				Moves.add(move);
+				break;
+			}
+			if(moveInBoard(move)) Moves.add(move);
 		}
 		for(int i=1; i<8; i++) {
 			move = new Move(x_+i, y_);
 			if(cellTakenAlly(move)) break;
-			if(moveInBoard(move)) moves.add(move);
+			if(cellTakenEnemy(move)) {
+				toCapture.add(move);
+				Moves.add(move);
+				break;
+			}
+			if(moveInBoard(move)) Moves.add(move);
 		}
-		return moves;
+		return Moves;
 	}
 
 }

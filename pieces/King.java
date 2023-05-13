@@ -25,6 +25,7 @@ public class King extends ChessPiece{
 			for (int j=-1; j<2; j++) {
 				if(i!=0 || j!=0) {
 					move = new Move(x_+i, y_+j);
+					if(cellTakenEnemy(move)) toCapture.add(move);
 					if(isValidMove(move)) Moves.add(move);
 				}
 			}
