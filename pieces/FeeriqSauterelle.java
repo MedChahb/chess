@@ -13,15 +13,11 @@ public class FeeriqSauterelle extends ChessPiece{
 		super(board, p, y, x);
 	}
 
-	@Override
-	public boolean isValidMove(int endX, int endY) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+
 
 	@Override
 	public List<Move> PieceMoves() {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 

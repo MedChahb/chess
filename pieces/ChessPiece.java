@@ -33,13 +33,33 @@ public abstract class ChessPiece {
 	public  boolean isRangeShowing() {return isRangeShowing;}
 	public  void setRangeShowing(boolean isShowing) {isRangeShowing = isShowing;}
 
-	public boolean isValidMove(Move move) {
-		return moveInBoard(move) && true; // to change 
-	}
 	
+	public boolean cellTakenAlly(Move move) {
+		if(player_.PlayerisWhite()) {
+			for(ChessPiece piece : board_.getWpiecesOnBoard()) {
+				if (piece.getX() == move.getX() && piece.getY() == move.getY()) {
+					return true;
+				}
+			}		
+		}
+		else { // player is Black
+			for(ChessPiece piece : board_.getBpiecesOnBoard()) {
+				if(piece.getX() == move.getX() && piece.getY() == move.getY()) {
+					return true;
+				}
+			}		
+		}
+		return false;
+	}	
 	public boolean moveInBoard(Move move) {
 		return 0<= move.getX() && move.getX()<=7 && 0<=move.getY() && move.getY()<=7;
 	}
+	
+	public boolean isValidMove(Move move) {
+		return moveInBoard(move) && !cellTakenAlly(move); // to change 
+	}
+	
+	
 	public abstract List<Move> PieceMoves();
 	
 	public abstract String toString();

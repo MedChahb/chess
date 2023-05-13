@@ -24,11 +24,25 @@ public class Bishop extends ChessPiece{
 	public List<Move> PieceMoves() {
 		List<Move> Moves = new ArrayList<>();
 		Move move;
-		for(int i=-7; i<8; i++) {
-			move = new Move(x_+i, y_+i);
-			if(isValidMove(move)) Moves.add(move);
+		for(int i=1; i<8; i++) {
 			move = new Move(x_+i, y_-i);
-			if(isValidMove(move)) Moves.add(move);
+			if(cellTakenAlly(move)) break;
+			if(moveInBoard(move)) Moves.add(move);
+		}
+		for(int i=1; i<8; i++) {
+			move = new Move(x_-i, y_+i);
+			if(cellTakenAlly(move)) break;
+			if(moveInBoard(move)) Moves.add(move);
+		}
+		for(int i=1; i<8; i++) {
+			move = new Move(x_+i, y_+i);
+			if(cellTakenAlly(move)) break;
+			if(moveInBoard(move)) Moves.add(move);
+		}
+		for(int i=1; i<8; i++) {
+			move = new Move(x_-i, y_-i);
+			if(cellTakenAlly(move)) break;
+			if(moveInBoard(move)) Moves.add(move);
 		}
 		return Moves;
 	}

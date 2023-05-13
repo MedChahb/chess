@@ -1,6 +1,7 @@
 package pieces;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 import chessBoard.ChessBoard;
 import player.Move;
@@ -13,16 +14,12 @@ public class FeeriqPrincesse extends ChessPiece{
 		super(board, p, y, x);
 	}
 
-	@Override
-	public boolean isValidMove(int endX, int endY) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
 	@Override
 	public List<Move> PieceMoves() {
-		// TODO Auto-generated method stub
-		return null;
+		ChessPiece b = new Bishop(board_, player_, y_, x_);
+		ChessPiece k = new Knight(board_, player_, y_, x_);
+		return Stream.concat(b.PieceMoves().stream(), k.PieceMoves().stream()).toList();
 	}
 
 	@Override
