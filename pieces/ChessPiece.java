@@ -34,5 +34,7 @@ public abstract class ChessPiece {
 	public abstract boolean isValidMove(int endX, int endY);
 	public abstract List<Move> PieceMoves();
 	
+	public abstract String toString();
+	
 	
 }
