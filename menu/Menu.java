@@ -62,6 +62,7 @@ public class Menu extends JFrame implements ActionListener {
         	this.whitePlayerName = whiteName.getText();
         	this.blackPlayerName = blackName.getText();
         	this.isSubmitted = true;
+        	
         	if(mode2.isSelected()) {
         		this.mode = "Pieces Féériques";
         		JOptionPane.showMessageDialog(this, "Dans ce mode de jeu, vous aller jouer avec des pièces féériques: \n"
@@ -70,7 +71,12 @@ public class Menu extends JFrame implements ActionListener {
         											+ "    Petit Fou : symbolisé par 'Fbi', fou de porté limité\n"
         											+ "    Pour le roi : symbolisé par 'FP', piont du roi qui capture les pièces se situant sur de ses cases de déplacement.\n");
         	}
-        	else {this.mode = "Standard";} // si aucun des boutons radio est séléctioné, alors standard
+        	else {
+        		this.mode = "Standard";
+        		JOptionPane.showMessageDialog(this,"Les régles pour intéragir avec l'interface graphique :\n"
+        											+ "Click gauche : selectionne la piece.\n"
+        											+ "Click droit : positionne la piece sélectionné.\n");
+        	} // si aucun des boutons radio est séléctioné, alors standard
             dispose();
         }
     }
