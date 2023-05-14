@@ -16,19 +16,35 @@ public class ChessBoard extends JFrame implements MouseListener{
     private String gameMode;
     private Player whitePlayer, blackPlayer;
     private JPanel boardPanel;
-    private ChessPiece PieceClicked;
+    private ChessPiece PieceSelected;
     
 	private ChessPiece[][] PiecesOnBoard = new ChessPiece[8][8];
-			
     private static int turn = 0; // si 0 c'est au White à jouer, 1 Black
     
     private final int BOARD_SIZE = 8;
     private final int CELL_SIZE = 80; 
     
+    
+    
+	public static void affiche2d(ChessPiece[][] list) {
+		System.out.print("\n");
+		for(ChessPiece[] inList : list) {
+			for(ChessPiece p : inList) {
+				if(p != null) {
+					if(p.toString().length() == 1)
+						System.out.print(" " +p + "   |");
+					else
+						System.out.print(" " +p + "  |");
+				}
+				else System.out.print(p + " |");
+			}
+			System.out.print("\n------------------------------------------------");
+			System.out.print("\n");
+		}
+	}
+    
     // creation de l'échiquier
-    public ChessBoard(Player Wp, Player Bp, String mode) {
-    	
- 
+    public ChessBoard(Player Wp, Player Bp, String mode) { 
     	
     	this.gameMode = mode;
     	
@@ -41,156 +57,48 @@ public class ChessBoard extends JFrame implements MouseListener{
         boardPanel.setPreferredSize(new Dimension(CELL_SIZE * BOARD_SIZE, CELL_SIZE * BOARD_SIZE));
 
         
+        // remplir le tableau 2D d'ici
+        Color whiteCell = new Color(232,215,184);
+        Color blackCell = new Color(181,136,99);
         for (int row = 0; row < BOARD_SIZE; row++) {
             for (int col = 0; col < BOARD_SIZE; col++) {
                 JPanel cellPanel = new JPanel();
                 cellPanel.setPreferredSize(new Dimension(CELL_SIZE, CELL_SIZE));
                 setResizable(false); // Make the window unsizable
 
-                // Alternate des couleurs (j'ai pris les couleurs de lichess.org)
+                // Alternate des couleurs (on a pris les couleurs de lichess.org)
                 if ((row + col) % 2 == 0) { // White si row et col ont la mm parité, sinon Black
-                    cellPanel.setBackground(new Color(232,215,184));
+                    cellPanel.setBackground(whiteCell);
                 } 
                 else {
-                    cellPanel.setBackground(new Color(181,136,99));
+                    cellPanel.setBackground(blackCell);
                 }
-
                 boardPanel.add(cellPanel);
+                
+                // !!!! ne pas oublier d'ajouter les Piece féérique
+                
+                // ajout des Pawns
+                if(row==1 || row==6) 							   PiecesOnBoard[row][col] = new Pawn	(this, (row==1)?Bp : Wp, row, col);
+                //ajout des Knights
+                if((row==0 || row == 7) && (col == 1 || col == 6)) PiecesOnBoard[row][col] = new Knight	(this, (row==0)?Bp : Wp, row, col);
+                //ajout des Rooks
+                if((row==0 || row == 7) && (col == 0 || col == 7)) PiecesOnBoard[row][col] = new Rook	(this, (row==0)?Bp : Wp, row, col);
+                //ajout des Bishops
+                if((row==0 || row == 7) && (col == 2 || col == 5)) PiecesOnBoard[row][col] = new Bishop	(this, (row==0)?Bp : Wp, row, col);
+                //ajout des Queens
+                if((row==0 || row == 7) && (col == 3)) 			   PiecesOnBoard[row][col] = new Queen	(this, (row==0)?Bp : Wp, row, col);
+                //ajout des Kings
+                if((row==0 || row == 7) && (col == 4)) 			   PiecesOnBoard[row][col] = new King	(this, (row==0)?Bp : Wp, row, col);
+                
+               
             }
         }
         
-        // !!!! ne pas oublier d'ajouter les Piece féérique
-        
-        // ----- placing Pawns (blanc puis noir)
-        Player p = Wp;
-        Color color = Color.WHITE;
-        int PositionRow = 6;
-        ChessPiece pawn;
-        
-        for(int i=0; i<16; i++) { 	
-        	if(i==8) {p = Bp; PositionRow = 1;color = Color.BLACK;} // on place les pieces noirs 
-        	
-        	if ((gameMode.equalsIgnoreCase("Pieces Féériques")) && (i==3 || i==11)) pawn = new FeeriqPawn(this, p, PositionRow, i%8);
-        	else pawn = new Pawn(this, p, PositionRow, i%8);
-	        if(p.PlayerisWhite()) {this.WpiecesOnBoard.add(pawn);} else {this.BpiecesOnBoard.add(pawn);}
-		    JPanel cellPanel = (JPanel) boardPanel.getComponent(PositionRow * BOARD_SIZE + i%8);
-	
-		    JLabel pawnLabel = new JLabel(pawn.toString(), SwingConstants.CENTER);
-		    pawnLabel.setPreferredSize(new Dimension(CELL_SIZE, CELL_SIZE));
-		    pawnLabel.setForeground(color);
-		    pawnLabel.setFont(new Font("Calibri", Font.BOLD, 30));
-		    cellPanel.add(pawnLabel);
-        }
-        
-        // ----- placing Rooks (blanc puis noir)
-        p = Wp;
-        color = Color.WHITE;
-        PositionRow = 7;
-        
-        for(int i=0; i<4; i++) {
-        	if(i==2) {p = Bp; PositionRow = 0;color = Color.BLACK;} // on place les pieces noirs
-        	
-        	int PositionColumn = ((i%2==0)?0 : 7);
-        	ChessPiece rook = new Rook(this, p, PositionRow, PositionColumn); 
-        	if(p.PlayerisWhite()) {this.WpiecesOnBoard.add(rook);} else {this.BpiecesOnBoard.add(rook);}
-		    JPanel cellPanel = (JPanel) boardPanel.getComponent(PositionRow * BOARD_SIZE + PositionColumn);
-	
-		    JLabel pawnLabel = new JLabel(rook.toString(), SwingConstants.CENTER);
-		    pawnLabel.setPreferredSize(new Dimension(CELL_SIZE, CELL_SIZE));
-		    pawnLabel.setForeground(color);
-		    pawnLabel.setFont(new Font("Calibri", Font.BOLD, 30));
-		    cellPanel.add(pawnLabel);
-        }
-        
-     // ----- placing Knights
-        p = Wp;
-        color = Color.WHITE;
-        PositionRow = 7;
-        ChessPiece knight;
-        
-        for(int i=0; i<4; i++) {
-        	if(i==2) {p = Bp; PositionRow = 0;color = Color.BLACK;} // on place les pieces noirs
-        	
-        	int PositionColumn = ((i%2==0)?1 : 6);
-        	if(gameMode.equalsIgnoreCase("standard")) { knight = new Knight(this, p, PositionRow, PositionColumn); }
-        	else {knight = new FeeriqPrincesse(this, p, PositionRow, PositionColumn) ;}
-        	if(p.PlayerisWhite()) {this.WpiecesOnBoard.add(knight);} else {this.BpiecesOnBoard.add(knight);}
-		    JPanel cellPanel = (JPanel) boardPanel.getComponent(PositionRow * BOARD_SIZE + PositionColumn);
-	
-		    JLabel pawnLabel = new JLabel(knight.toString(), SwingConstants.CENTER);
-		    pawnLabel.setPreferredSize(new Dimension(CELL_SIZE, CELL_SIZE));
-		    pawnLabel.setForeground(color);
-		    pawnLabel.setFont(new Font("Calibri", Font.BOLD, 30));
-		    
-		    cellPanel.add(pawnLabel);
-        }
-        
-        // ----- placing Bishops (fou)
-        p = Wp;
-        color = Color.WHITE;
-        PositionRow = 7;
-        ChessPiece bishop;
-        
-        for(int i=0; i<4; i++) {
-        	if(i==2) {p = Bp; PositionRow = 0;color = Color.BLACK;} // on place les pieces noirs
-        	
-        	int PositionColumn = ((i%2==0)?2 : 5);
-        	if (gameMode.equalsIgnoreCase("standard")) bishop = new Bishop(this, p, PositionRow, PositionColumn); 
-        	else bishop = new FeeriqBishop(this, p, PositionRow, PositionColumn); 
-        	if(p.PlayerisWhite()) {this.WpiecesOnBoard.add(bishop);} else {this.BpiecesOnBoard.add(bishop);}
-		    JPanel cellPanel = (JPanel) boardPanel.getComponent(PositionRow * BOARD_SIZE + PositionColumn);
-	
-		    JLabel pawnLabel = new JLabel(bishop.toString(), SwingConstants.CENTER);
-		    pawnLabel.setPreferredSize(new Dimension(CELL_SIZE, CELL_SIZE));
-		    pawnLabel.setForeground(color);
-		    pawnLabel.setFont(new Font("Calibri", Font.BOLD, 30));
-		    cellPanel.add(pawnLabel);
-        }
-        
-     // ----- placing Kings
-        p = Wp;
-        color = Color.WHITE;
-        PositionRow = 7;
-        
-        for(int i=0; i<2; i++) {
-        	if(i==1) {p = Bp; PositionRow = 0;color = Color.BLACK;} // on place les pieces noirs
-        	
-        	int PositionColumn = 3;
-        	ChessPiece king = new King(this, p, PositionRow, PositionColumn); 
-        	if(p.PlayerisWhite()) {this.WpiecesOnBoard.add(king);} else {this.BpiecesOnBoard.add(king);}
-		    JPanel cellPanel = (JPanel) boardPanel.getComponent(PositionRow * BOARD_SIZE + PositionColumn);
-	
-		    JLabel pawnLabel = new JLabel(king.toString(), SwingConstants.CENTER);
-		    pawnLabel.setPreferredSize(new Dimension(CELL_SIZE, CELL_SIZE));
-		    pawnLabel.setForeground(color);
-		    pawnLabel.setFont(new Font("Calibri", Font.BOLD, 30));
-		    cellPanel.add(pawnLabel);
-        }
-        
-        // ----- placing Queens
-        p = Wp;
-        color = Color.WHITE;
-        PositionRow = 7;
-        ChessPiece queen;
-        
-        for(int i=0; i<2; i++) {
-        	if(i==1) {p = Bp; PositionRow = 0;color = Color.BLACK;} // on place les pieces noirs
-        	
-        	int PositionColumn = 4;
-        	if(gameMode.equalsIgnoreCase("standard")) queen = new Queen(this, p, PositionRow, PositionColumn); 
-        	else queen = new FeeriqSauterelle(this, p, PositionRow, PositionColumn);
-        	if(p.PlayerisWhite()) {this.WpiecesOnBoard.add(queen);} else {this.BpiecesOnBoard.add(queen);}
-		    JPanel cellPanel = (JPanel) boardPanel.getComponent(PositionRow * BOARD_SIZE + PositionColumn);
-	
-		    JLabel pawnLabel = new JLabel(queen.toString(), SwingConstants.CENTER);
-		    pawnLabel.setPreferredSize(new Dimension(CELL_SIZE, CELL_SIZE));
-		    pawnLabel.setForeground(color);
-		    pawnLabel.setFont(new Font("Calibri", Font.BOLD, 30));
-		    cellPanel.add(pawnLabel);
-        }
         
         
-
+        //placing pieces    
+        PlacingPieces();
+        
         add(boardPanel);
         pack();
         setLocationRelativeTo(null); // afficher la fenetre en centre de l'ecran
@@ -202,15 +110,27 @@ public class ChessBoard extends JFrame implements MouseListener{
         
         
     }
+    
+    public void PlacingPieces() {
+        for(int row = 0; row<BOARD_SIZE; row++) {
+        	for (int col = 0; col < BOARD_SIZE; col++) {
+        		ChessPiece piece = PiecesOnBoard[row][col];
+        		if(piece != null) {
+	        		boolean isplayerWhite = piece.getPlayer().PlayerisWhite();
+	        		if(isplayerWhite) {this.WpiecesOnBoard.add(piece);} else {this.BpiecesOnBoard.add(piece);}
+	        		
+	        		JPanel cellPanel = (JPanel) boardPanel.getComponent(row * BOARD_SIZE + col);
+	        		JLabel pawnLabel = new JLabel(piece.toString(), SwingConstants.CENTER);
+	    		    pawnLabel.setPreferredSize(new Dimension(CELL_SIZE, CELL_SIZE));
+	    		    pawnLabel.setForeground((isplayerWhite)?Color.WHITE : Color.BLACK );
+	    		    pawnLabel.setFont(new Font("Calibri", Font.BOLD, 30));
+	    		    cellPanel.add(pawnLabel);
+        		}
+        	}
+        }
+    }
 
-    public Player getWhitePlayer() {return this.whitePlayer;}
-	public Player getBlackPlayer() {return this.blackPlayer;}
-	public String getGameMode() { return this.gameMode;}
-	public List<ChessPiece> getWpiecesOnBoard(){ return this.WpiecesOnBoard;}
-	public List<ChessPiece> getBpiecesOnBoard(){ return this.BpiecesOnBoard;}
-
-
-	public ChessPiece PieceClicked(List<ChessPiece> listPieces, Move startMove) {
+	public ChessPiece PieceSelected(List<ChessPiece> listPieces, Move startMove) {
 		//cherche dans la liste la piece de coord startMove
 		for(ChessPiece piece : listPieces) {
 			if(piece.getX() == startMove.getX() && piece.getY() == startMove.getY()) {
@@ -220,30 +140,21 @@ public class ChessBoard extends JFrame implements MouseListener{
 		return null;
 	}
 	
-	
 	// return la piece clické selon le tour de jeu.
 	// null si pas de piece sur la souris
 	public ChessPiece PlayerClickedPiece(Move startMove) {
 		if (turn == 0) {
-			return this.PieceClicked(WpiecesOnBoard, startMove);
+			return this.PieceSelected(WpiecesOnBoard, startMove);
 		}
-		else return this.PieceClicked(BpiecesOnBoard, startMove);
+		else return this.PieceSelected(BpiecesOnBoard, startMove);
 	}
 
-		
-	
-	public void mouseClicked(MouseEvent e) {
-		maskRange();
-		Move move =  Move.mouseCoordToBoardCoord(e.getX(), e.getY());
-		PieceClicked = PlayerClickedPiece(move);
-		showRangePiece();
-	}
 	
 	public void showRangePiece() {
-		if(PieceClicked!= null) {
-			//reinisitlisation des pieces que Piececlicked peut capturer à chaque click
-			PieceClicked.emptyToCapture();
-			List<Move> range = PieceClicked.PieceMoves();
+		if(PieceSelected!= null) {
+			//reinisitlisation des pieces que PieceSelected peut capturer à chaque click
+			PieceSelected.emptyToCapture();
+			List<Move> range = PieceSelected.PieceMoves();
 			for(Move m : range) {
 				JPanel cellPanel = (JPanel) boardPanel.getComponent(m.getY() * 8 + m.getX());
 				cellPanel.setBackground(Color.RED);
@@ -252,9 +163,9 @@ public class ChessBoard extends JFrame implements MouseListener{
 		}
     }
 	public void maskRange() {
-		if(PieceClicked!= null) {
-			PieceClicked.emptyToCapture();
-			List<Move> range = PieceClicked.PieceMoves();
+		if(PieceSelected!= null) {
+			PieceSelected.emptyToCapture();
+			List<Move> range = PieceSelected.PieceMoves();
 			for(Move m : range) {
 				JPanel cellPanel = (JPanel) boardPanel.getComponent(m.getY() * 8 + m.getX());
 				if ((m.getY() + m.getX()) % 2 == 0) { 
@@ -268,6 +179,32 @@ public class ChessBoard extends JFrame implements MouseListener{
 		}
 		
 	}
+	
+	public void mouseClicked(MouseEvent e) {
+		maskRange();		
+		Move moveClick =  Move.mouseCoordToBoardCoord(e.getX(), e.getY());
+		
+		//update the piece coordinates
+		if(PieceSelected != null) {
+			PiecesOnBoard[moveClick.getY()][moveClick.getX()] = PieceSelected;
+			PiecesOnBoard[PieceSelected.getY()][PieceSelected.getX()] = null;
+			PieceSelected.setX(moveClick.getX());
+			PieceSelected.setX(moveClick.getY());
+			//turn = (turn==0)?1 : 0;
+		}
+		PlacingPieces();
+		PieceSelected = PlayerClickedPiece(moveClick);
+		affiche2d(PiecesOnBoard);
+		showRangePiece();
+	}
+	
+	
+    public Player getWhitePlayer() {return this.whitePlayer;}
+	public Player getBlackPlayer() {return this.blackPlayer;}
+	public String getGameMode() { return this.gameMode;}
+	public List<ChessPiece> getWpiecesOnBoard(){ return this.WpiecesOnBoard;}
+	public List<ChessPiece> getBpiecesOnBoard(){ return this.BpiecesOnBoard;}
+	
 	public void movePiece(Player player, Move startMove) {
 		//
     }
