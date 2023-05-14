@@ -9,7 +9,7 @@ import pieces.ChessPiece;
 public class Player {
     private String name_;
     private String color_; // white ou black
-    private boolean isCheck;
+    private boolean inCheck = false;
     private boolean isCheckmate;
     private boolean isStalemate;
     private List<ChessPiece> piecesLeft;
@@ -27,19 +27,12 @@ public class Player {
     	return null;
     }
 
-    public void makeMove(ChessBoard board, Move move) {
-        // Code to make a move on the board
-    }
-
 
     public boolean PlayerisWhite() {
     	return this.color_.equalsIgnoreCase("white");
     }
     
-    public boolean isInCheck(ChessBoard board) {
-        // Code to check if the player is in check
-    	return false;
-    }
+
 
     public boolean isCheckmate(ChessBoard board) {
         // Code to check if the player is in checkmate
@@ -51,7 +44,7 @@ public class Player {
     	return false;
     }
     
-    public String getPlayerName() { if(this!=null)return this.name_; else return null;}
+    public String getPlayerName() { return this.name_;}
     
     public List<ChessPiece> getPiecesLeft(){ return this.piecesLeft;}
     public void setPiecesLeft(List<ChessPiece> pl) {

@@ -1,5 +1,7 @@
 package player;
 
+import java.util.List;
+
 public class Move {
 	private int y_,x_;
 	
@@ -27,6 +29,14 @@ public class Move {
 		this.y_ = y;
 	}
 	
+    public boolean moveInRange(List<Move> range) {
+    	for(Move m : range) {
+    		if(x_ == m.getX() && y_==m.getY()) {
+    			return true;
+    		}
+    	}
+    	return false;
+    }
 	
 	public String toString() { return "X : "+x_+" Y: "+y_;}
 		
