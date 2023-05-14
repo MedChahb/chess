@@ -49,8 +49,6 @@ public abstract class ChessPiece {
 		}
 		return false;
 	}	
-	
-	
 	public boolean cellTakenAlly(Move move) {
 		if(player_.PlayerisWhite()) {
 			for(ChessPiece piece : board_.getWpiecesOnBoard()) {
@@ -68,14 +66,13 @@ public abstract class ChessPiece {
 		}
 		return false;
 	}	
-	
 	public boolean moveInBoard(Move move) {
 		return 0<= move.getX() && move.getX()<=7 && 0<=move.getY() && move.getY()<=7;
 	}
-	
 	public boolean isValidMove(Move move) {
 		return moveInBoard(move) && !cellTakenAlly(move); // to change 
 	}
+	
 	
 	
 	public abstract List<Move> PieceMoves();

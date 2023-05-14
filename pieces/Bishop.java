@@ -8,6 +8,7 @@ import player.Move;
 import player.Player;
 
 public class Bishop extends ChessPiece{
+	
 
 	public Bishop(ChessBoard board, Player p, int y, int x) {
 		super(board, p, y, x);
@@ -18,7 +19,9 @@ public class Bishop extends ChessPiece{
 		return "B";
 	}
 
+	
 	public List<Move> PieceMoves() {
+		
 		List<Move> Moves = new ArrayList<>();
 		Move move;
 		for(int i=1; i<8; i++) {
@@ -61,6 +64,7 @@ public class Bishop extends ChessPiece{
 			}
 			if(moveInBoard(move)) Moves.add(move);
 		}
+		
 		return Moves;
 	}
 
