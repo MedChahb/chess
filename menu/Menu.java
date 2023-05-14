@@ -74,8 +74,9 @@ public class Menu extends JFrame implements ActionListener {
         	else {
         		this.mode = "Standard";
         		JOptionPane.showMessageDialog(this,"Les régles pour intéragir avec l'interface graphique :\n"
-        											+ "Click gauche : selectionne la piece.\n"
-        											+ "Click droit : positionne la piece sélectionné.\n");
+        											+ "      Click gauche : selectionne la piece.\n"
+        											+ "      Click droit : positionne la piece sélectionné.\n"
+        											+ "le tour est indiqué dans le titre de la fenêtre.\n");
         	} // si aucun des boutons radio est séléctioné, alors standard
             dispose();
         }

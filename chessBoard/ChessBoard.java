@@ -221,6 +221,9 @@ public class ChessBoard extends JFrame implements MouseListener{
 			if(piece instanceof Pawn) {
 				((Pawn) piece).hasMoved();
 			}
+			String title = (turn == 0)?String.format("Chess : %s's turn (white)", whitePlayer.getPlayerName())
+					: String.format("Chess : %s's turn (black)", blackPlayer.getPlayerName());
+			setTitle(title);
 		}
     }
 
