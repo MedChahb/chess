@@ -21,24 +21,51 @@ public class Pawn extends ChessPiece{
 		Move move;
 		if(player_.PlayerisWhite()) {
 			move = new Move(x_, y_-1);
-			if(moveInBoard(move)) Moves.add(move);
+			if(moveInBoard(move) && !cellTakenAlly(move) && !cellTakenEnemy(move)) Moves.add(move);
+			// les captures
+			move = new Move(x_+1, y_-1); // coin droit
+			if(moveInBoard(move) && !cellTakenAlly(move) && cellTakenEnemy(move)) {Moves.add(move); toCapture.add(move);}
+			move = new Move(x_-1, y_-1); // coin gauche
+			if(moveInBoard(move) && !cellTakenAlly(move) && cellTakenEnemy(move)) {Moves.add(move); toCapture.add(move);}
 			
 			if(!moved) {
 				move = new Move(x_, y_-2);
-				if(moveInBoard(move)) Moves.add(move);
+				if(moveInBoard(move) && !cellTakenAlly(move) && !cellTakenEnemy(move)) Moves.add(move);
 			}
 		}
 		else {
 			move = new Move(x_, y_+1);
-			if(moveInBoard(move)) Moves.add(move);
+			if(moveInBoard(move) && !cellTakenAlly(move) && !cellTakenEnemy(move)) Moves.add(move);
+			//les caprutes
+			move = new Move(x_+1, y_+1); // coin droit
+			if(moveInBoard(move) && !cellTakenAlly(move) && cellTakenEnemy(move)) {Moves.add(move); toCapture.add(move);}
+			move = new Move(x_-1, y_+1); // coin gauche
+			if(moveInBoard(move) && !cellTakenAlly(move) && cellTakenEnemy(move)) {Moves.add(move); toCapture.add(move);}
+			
 			if(!moved) {
 				move = new Move(x_, y_+2);
-				if(moveInBoard(move)) Moves.add(move);
+				if(moveInBoard(move) && !cellTakenAlly(move) && !cellTakenEnemy(move)) Moves.add(move);
 			}
 		}
 		return Moves;
 	}
 	
+	public List<Move> PawnDefCell(){
+		List<Move> cells = new ArrayList<>();
+		if(player_.PlayerisWhite()) {
+			Move move = new Move(x_+1, y_-1); //coin droit
+			if(moveInBoard(move)) cells.add(move);
+			move = new Move(x_-1, y_-1); //coin gauche
+			if(moveInBoard(move)) cells.add(move);
+		}
+		else {
+			Move move = new Move(x_+1, y_+1); //coin droit
+			if(moveInBoard(move)) cells.add(move);
+			move = new Move(x_-1, y_+1); //coin gauche
+			if(moveInBoard(move)) cells.add(move);
+		}
+		return cells;
+	}
 	
 	public void hasMoved() { this.moved = true;}
 	
