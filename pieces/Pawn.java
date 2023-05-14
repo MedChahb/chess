@@ -7,7 +7,8 @@ import player.Move;
 import player.Player;
 
 public class Pawn extends ChessPiece{
-
+	private boolean moved = false;
+	
 	public Pawn(ChessBoard board, Player p, int y, int x) {
 		super(board, p, y, x);
 	}
@@ -21,19 +22,25 @@ public class Pawn extends ChessPiece{
 		if(player_.PlayerisWhite()) {
 			move = new Move(x_, y_-1);
 			if(moveInBoard(move)) Moves.add(move);
-			move = new Move(x_, y_-2);
-			if(moveInBoard(move)) Moves.add(move);
-
+			
+			if(!moved) {
+				move = new Move(x_, y_-2);
+				if(moveInBoard(move)) Moves.add(move);
+			}
 		}
 		else {
 			move = new Move(x_, y_+1);
 			if(moveInBoard(move)) Moves.add(move);
-			move = new Move(x_, y_+2);
-			if(moveInBoard(move)) Moves.add(move);
+			if(!moved) {
+				move = new Move(x_, y_+2);
+				if(moveInBoard(move)) Moves.add(move);
+			}
 		}
 		return Moves;
 	}
 	
+	
+	public void hasMoved() { this.moved = true;}
 	
 	public String toString() {
 		return "P";
