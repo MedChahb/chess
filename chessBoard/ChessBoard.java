@@ -32,6 +32,7 @@ public class ChessBoard extends JFrame implements MouseListener{
     private Color whiteCell = new Color(232,215,184);
     private Color blackCell = new Color(181,136,99);
     
+
     
     
 	public static void affiche2d(ChessPiece[][] list) {
@@ -104,11 +105,8 @@ public class ChessBoard extends JFrame implements MouseListener{
         
         
         
-        //placing pieces    
-        PlacingPieces();
-        pack();
-        setLocationRelativeTo(null); // afficher la fenetre en centre de l'ecran
-        setVisible(true);
+        
+
         
         WpiecesOnBoard = getPiecesLeft("white");
         BpiecesOnBoard = getPiecesLeft("black");
@@ -124,6 +122,15 @@ public class ChessBoard extends JFrame implements MouseListener{
         
         this.whitePlayer = Wp; this.blackPlayer = Bp;    
         
+        
+        
+        //System.out.println(isSafe(new Move(3,2)));
+        //placing pieces  
+        //this.setPiece(3, 3, kingTest);
+        PlacingPieces();
+        pack();
+        setLocationRelativeTo(null); // afficher la fenetre en centre de l'ecran
+        setVisible(true);
     }
    
     
@@ -289,6 +296,8 @@ public class ChessBoard extends JFrame implements MouseListener{
 			setTitle(title);
 		}
 		
+		
+		
 		//m-à-j des att
 		wKing = getKing("white");
 		wKing.Check(wKing.kingOnCapture());
@@ -300,6 +309,7 @@ public class ChessBoard extends JFrame implements MouseListener{
 		blackDefCell = getDefCell("black");
 
     }
+
 
 
 	public void mouseClicked(MouseEvent e) {
@@ -358,7 +368,7 @@ public class ChessBoard extends JFrame implements MouseListener{
 	public ChessPiece[][] getPiecesOnBoard(){ return this.PiecesOnBoard;}
 	public void setPiecesOnBoard(ChessPiece[][] b){ this.PiecesOnBoard = b;}
 	
-	public void setPiece(int x, int y, ChessPiece p) { this.PiecesOnBoard[y][x] = p;}
+	public void setPiece(int y, int x, ChessPiece p) { this.PiecesOnBoard[y][x] = p;}
 	
 
 	

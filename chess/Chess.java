@@ -26,7 +26,7 @@ public class Chess {
 
 		Player Wp = new Player(menu.getWhitePlayerName(), "white");
 		Player Bp = new Player(menu.getBlackPlayerName(), "black");
-		System.out.print(menu.getMode());	
+		//System.out.print(menu.getMode());	
 		ChessBoard board = new ChessBoard(Wp, Bp, menu.getMode());
 			
 
