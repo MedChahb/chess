@@ -32,7 +32,8 @@ public class ChessBoard extends JFrame implements MouseListener{
     private Color whiteCell = new Color(232,215,184);
     private Color blackCell = new Color(181,136,99);
     
-
+    
+    public King kingTest = new King(this, new Player("moha", "white"), 2,3);
     
     
 	public static void affiche2d(ChessPiece[][] list) {
@@ -124,7 +125,7 @@ public class ChessBoard extends JFrame implements MouseListener{
         
         
         
-        //System.out.println(isSafe(new Move(3,2)));
+        //System.out.println(isSafe(kingTest));
         //placing pieces  
         //this.setPiece(3, 3, kingTest);
         PlacingPieces();
@@ -184,7 +185,7 @@ public class ChessBoard extends JFrame implements MouseListener{
 		for(ChessPiece p : pieces) {
 			List<Move> range = (p instanceof Pawn)? ((Pawn)p).PawnDefCell(): p.PieceMoves();
 			for(Move move : range) {
-				if(!move.moveInRange(defCell)) // stop deplucating
+				if(!move.moveInRange(defCell))
 					defCell.add(move);
 			}
 		}
@@ -309,6 +310,13 @@ public class ChessBoard extends JFrame implements MouseListener{
 		blackDefCell = getDefCell("black");
 
     }
+	// kt7t king f move okatchuf wach aykun f check
+	public boolean isSafe(King king) {
+		setPiece(2, 3, king);// khdama kt7t kingTest f 2,3
+		// ncheckiw db wch kingTest fih check wla la
+		setPiece(king.getY(), king.getX(), null); // n7ydo kingTest li zdna
+		return king.kingOnCapture();
+	}
 
 
 
@@ -351,8 +359,8 @@ public class ChessBoard extends JFrame implements MouseListener{
 		if(bKing.isInCheck()) {
 			highlightSelected(bKing);
 		}
-		
-		
+		if(PieceSelected!=null)
+			System.out.println(PieceSelected.imProtected());
 		//affiche2d(PiecesOnBoard);
 		
 	}

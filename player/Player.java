@@ -44,6 +44,7 @@ public class Player {
     	return false;
     }
     
+    public void setColorPlayer(String color) { this.color_ = color;} 
     public String getPlayerName() { return this.name_;}
     
     public List<ChessPiece> getPiecesLeft(){ return this.piecesLeft;}
