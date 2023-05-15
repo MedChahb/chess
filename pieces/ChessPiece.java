@@ -11,6 +11,7 @@ public abstract class ChessPiece {
 	protected Player player_;
 	protected int x_,y_;
 	protected List<Move> toCapture = new ArrayList<>();
+
 	
 	private boolean isRangeShowing = false;
 

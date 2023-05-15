@@ -184,7 +184,7 @@ public class ChessBoard extends JFrame implements MouseListener{
 		for(ChessPiece p : pieces) {
 			List<Move> range = (p instanceof Pawn)? ((Pawn)p).PawnDefCell(): p.PieceMoves();
 			for(Move move : range) {
-				if(!move.moveInRange(defCell))
+				if(!move.moveInRange(defCell)) // stop deplucating
 					defCell.add(move);
 			}
 		}
@@ -351,6 +351,7 @@ public class ChessBoard extends JFrame implements MouseListener{
 		if(bKing.isInCheck()) {
 			highlightSelected(bKing);
 		}
+		
 		
 		//affiche2d(PiecesOnBoard);
 		
