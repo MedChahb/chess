@@ -292,6 +292,12 @@ public class ChessBoard extends JFrame implements MouseListener{
 			if(piece instanceof Pawn) {
 				((Pawn) piece).hasMoved();
 			}
+			if(piece instanceof King) {
+				((King) piece).Moved();
+			}
+			if(piece instanceof Rook) {
+				((Rook) piece).Moved();
+			}
 			String title = (turn == 0)?String.format("Chess : %s's turn (white)", whitePlayer.getPlayerName())
 					: String.format("Chess : %s's turn (black)", blackPlayer.getPlayerName());
 			setTitle(title);
@@ -337,20 +343,46 @@ public class ChessBoard extends JFrame implements MouseListener{
 		}
 		//right click -> move the selected piece(or capture whit it)
 		else if (e.getButton() == MouseEvent.BUTTON3) {
+			Move moveTo =  Move.mouseCoordToBoardCoord(e.getX(), e.getY());
 			if(PieceSelected != null) {
 				
-					//not inCheck
-					if(!wKing.isInCheck()) {
-						//update the piece coordinates
-						movePiece(PieceSelected, moveClick);
+				
+				// detecte le moment roquer
+				if(PieceSelected instanceof King) {
+					King king = ((King)PieceSelected);
+					int xOrg = king.getX();
+					int yOrg = king.getY();
+					if(king.CastledLeft(moveTo) && !king.getMoved() && getPieceOnBoard(moveTo)==null) {
+						//khasni nakhod rook li an7rk m3a lking
+						ChessPiece rook = getPieceOnBoard(new Move(0, (turn==0)?7 : 0));
+						getPiecesOnBoard()[yOrg][xOrg] = null;
+						getPiecesOnBoard()[moveTo.getY()][moveTo.getX()] = new King(this, (turn==0)?whitePlayer : blackPlayer, moveTo.getY(), moveTo.getX());
+						//king.setX(moveTo.getX()); king.setY(moveTo.getY());
+						movePiece(rook, new Move(3, (turn==0)?7 : 0));
 					}
-					//in check
-					else {
-						//bug in discovered checks
-						if(PieceSelected.equals(wKing) && true && true)// pieces that can move when check
-							movePiece(PieceSelected, moveClick);
+					if(king.CastledRight(moveTo) && !king.getMoved() && getPieceOnBoard(moveTo)==null) {
+						ChessPiece rook = getPieceOnBoard(new Move(7, (turn==0)?7 : 0));
+						getPiecesOnBoard()[yOrg][xOrg] = null;
+						getPiecesOnBoard()[moveTo.getY()][moveTo.getX()] = new King(this, (turn==0)?whitePlayer : blackPlayer, moveTo.getY(), moveTo.getX());
+						//king.setX(moveTo.getX()); king.setY(moveTo.getY());
+						movePiece(rook, new Move(5, (turn==0)?7 : 0));
 					}
 				}
+				
+				
+					//not inCheck
+				if(!wKing.isInCheck()) {
+					//update the piece coordinates
+					movePiece(PieceSelected, moveClick);
+				}
+				//in check
+				else {
+					//bug in discovered checks
+					if(PieceSelected.equals(wKing) && true && true)// pieces that can move when check
+						movePiece(PieceSelected, moveClick);
+				}
+				
+			}
 			PieceSelected = null;
 		}
 		if(wKing.isInCheck()) {
@@ -360,8 +392,8 @@ public class ChessBoard extends JFrame implements MouseListener{
 			highlightSelected(bKing);
 		}
 		if(PieceSelected!=null)
-			System.out.println(PieceSelected.imProtected());
-		//affiche2d(PiecesOnBoard);
+			System.out.println(PieceSelected.getX());
+		affiche2d(PiecesOnBoard);
 		
 	}
 		
@@ -375,8 +407,10 @@ public class ChessBoard extends JFrame implements MouseListener{
 	public List<Move> getWhiteDefCell(){ return this.whiteDefCell;}
 	public List<Move> getBlackDefCell(){ return this.blackDefCell;}
 	public ChessPiece[][] getPiecesOnBoard(){ return this.PiecesOnBoard;}
+	public ChessPiece getPieceOnBoard(Move move) { return (PieceSelected.moveInBoard(move))? PiecesOnBoard[move.getY()][move.getX()] : null;}
 	public void setPiecesOnBoard(ChessPiece[][] b){ this.PiecesOnBoard = b;}
 	
+	//préc of x and y are valid
 	public void setPiece(int y, int x, ChessPiece p) { this.PiecesOnBoard[y][x] = p;}
 	
 

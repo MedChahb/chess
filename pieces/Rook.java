@@ -8,6 +8,8 @@ import player.Move;
 import player.Player;
 
 public class Rook extends ChessPiece{
+	
+	private boolean hasMoved = false; // pour roquer
 
 	public Rook(ChessBoard board, Player p, int y, int x) {
 		super(board, p, y, x);
@@ -79,5 +81,6 @@ public class Rook extends ChessPiece{
 		}
 		return Moves;
 	}
-
+	public boolean getHasMoved() {return hasMoved;}
+	public void Moved() { hasMoved = true;}
 }
