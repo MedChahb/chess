@@ -11,7 +11,6 @@ public abstract class ChessPiece {
 	protected Player player_;
 	protected int x_,y_;
 	protected List<Move> toCapture = new ArrayList<>();
-
 	
 	private boolean isRangeShowing = false;
 
@@ -25,10 +24,29 @@ public abstract class ChessPiece {
 	public void setX(int x) {this.x_ = x;}
 	public int getY() {return y_;}
 	public void setY(int y) {this.y_ = y;}
+	public void setColorPiece(String color) {this.player_.setColorPlayer(color);}
 	public ChessBoard getBoard() { return this.board_;}
 	public Player getPlayer() {return this.player_;}
 	public List<Move> getToCapture(){ return this.toCapture;}
 	public void emptyToCapture() { this.toCapture = new ArrayList<>();}
+	
+	
+	public boolean imProtected() {
+		// make ur self enemy, if u can be captured by the allies -> true
+		String color = (player_.PlayerisWhite())? "black" : "white";
+		this.setColorPiece(color);
+		List<ChessPiece> allies = (player_.PlayerisWhite())? board_.getBpiecesOnBoard() : board_.getWpiecesOnBoard();
+		for(ChessPiece enemy : allies) {
+			Move move = new Move(this.getX(), this.getY());
+			if(move.moveInRange(enemy.PieceMoves())) {
+				this.setColorPiece((color.equals("white")?"black" : "white"));
+				return true;
+			}
+		}
+		this.setColorPiece((color.equals("white")?"black" : "white"));
+		return false;
+	}
+	
 	
 	public  boolean isRangeShowing() {return isRangeShowing;}
 	public  void setRangeShowing(boolean isShowing) {isRangeShowing = isShowing;}
