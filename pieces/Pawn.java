@@ -29,8 +29,9 @@ public class Pawn extends ChessPiece{
 			if(moveInBoard(move) && !cellTakenAlly(move) && cellTakenEnemy(move)) {Moves.add(move); toCapture.add(move);}
 			
 			if(!moved) {
+				Move case1 = new Move(x_, y_-1);
 				move = new Move(x_, y_-2);
-				if(moveInBoard(move) && !cellTakenAlly(move) && !cellTakenEnemy(move)) Moves.add(move);
+				if(moveInBoard(move) && !cellTakenAlly(move) && !cellTakenEnemy(move) && !cellTakenAlly(case1) && !cellTakenEnemy(case1) ) Moves.add(move);
 			}
 		}
 		else {
@@ -43,8 +44,9 @@ public class Pawn extends ChessPiece{
 			if(moveInBoard(move) && !cellTakenAlly(move) && cellTakenEnemy(move)) {Moves.add(move); toCapture.add(move);}
 			
 			if(!moved) {
+				Move case1 = new Move(x_, y_+1);
 				move = new Move(x_, y_+2);
-				if(moveInBoard(move) && !cellTakenAlly(move) && !cellTakenEnemy(move)) Moves.add(move);
+				if(moveInBoard(move) && !cellTakenAlly(move) && !cellTakenEnemy(move) && !cellTakenAlly(case1) && !cellTakenEnemy(case1) ) Moves.add(move);
 			}
 		}
 		return Moves;
