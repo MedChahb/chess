@@ -43,7 +43,7 @@ public class Menu extends JFrame implements ActionListener {
         modePanel.add(mode2);
         panel.add(modePanel);
 
-        submit = new JButton("Submit");
+        submit = new JButton("Jouer");
         submit.setAlignmentX(Component.CENTER_ALIGNMENT);
         submit.addActionListener(this);
         panel.add(Box.createVerticalGlue());
@@ -66,10 +66,10 @@ public class Menu extends JFrame implements ActionListener {
         	if(mode2.isSelected()) {
         		this.mode = "Pieces Féériques";
         		JOptionPane.showMessageDialog(this, "Dans ce mode de jeu, vous aller jouer avec des pièces féériques: \n"
-        											+ "    Princess : symbolisé par 'FPr', combine les mouvements d'un cavalier et d'un fou.\n"
-        											+ "    Sauterelle : symbolisé par 'FQs', saute par-dessus les pièces.\n"
-        											+ "    Petit Fou : symbolisé par 'Fbi', fou de porté limité\n"
-        											+ "    Pour le roi : symbolisé par 'FP', piont du roi qui capture les pièces se situant sur de ses cases de déplacement.\n");
+        											+ "      Princess : symbolisé par 'FPr', combine les mouvements d'un cavalier et d'un fou.\n"
+        											+ "      FakeQueen : symbolisé par 'FQ', à la double de la porté du Roi.\n"
+        											+ "      Petit Fou : symbolisé par 'Fbi', fou de porté limité\n"
+        											+ "      For the King : symbolisé par 'FP', pion du Roi de porté toujours 2 et capture sur ces cases de déplacement.\n");
         	}
         	else {
         		this.mode = "Standard";

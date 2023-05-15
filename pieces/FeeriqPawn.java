@@ -1,5 +1,6 @@
 package pieces;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import chessBoard.ChessBoard;
@@ -16,8 +17,40 @@ public class FeeriqPawn extends ChessPiece{
 
 	@Override
 	public List<Move> PieceMoves() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Move> Moves = new ArrayList<>();
+		Move move;
+		if(player_.PlayerisWhite()) {
+			move = new Move(x_, y_-1);
+			if(moveInBoard(move) && !cellTakenAlly(move)) {Moves.add(move); toCapture.add(move);}
+			
+			if(!cellTakenAlly(move) && !cellTakenEnemy(move)) {
+				move = new Move(x_, y_-2);
+				if(moveInBoard(move)) {Moves.add(move); toCapture.add(move);}
+			}
+			// les captures
+			move = new Move(x_+1, y_-1); // coin droit
+			if(moveInBoard(move) && !cellTakenAlly(move) && cellTakenEnemy(move)) {Moves.add(move); toCapture.add(move);}
+			move = new Move(x_-1, y_-1); // coin gauche
+			if(moveInBoard(move) && !cellTakenAlly(move) && cellTakenEnemy(move)) {Moves.add(move); toCapture.add(move);}
+			
+		}
+		else {
+			move = new Move(x_, y_+1);
+			if(moveInBoard(move) && !cellTakenAlly(move)) {Moves.add(move); toCapture.add(move);}
+			if(!cellTakenAlly(move) && !cellTakenEnemy(move)) {
+				move = new Move(x_, y_+2);
+				if(moveInBoard(move)) {Moves.add(move); toCapture.add(move);}
+			}
+			//les caprutes
+			move = new Move(x_+1, y_+1); // coin droit
+			if(moveInBoard(move) && !cellTakenAlly(move) && cellTakenEnemy(move)) {Moves.add(move); toCapture.add(move);}
+			move = new Move(x_-1, y_+1); // coin gauche
+			if(moveInBoard(move) && !cellTakenAlly(move) && cellTakenEnemy(move)) {Moves.add(move); toCapture.add(move);}
+			
+
+		}
+		return Moves;
+
 	}
 
 	@Override

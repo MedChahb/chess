@@ -88,17 +88,38 @@ public class ChessBoard extends JFrame implements MouseListener{
                 // !!!! ne pas oublier d'ajouter les Piece féérique
                 
                 // ajout des Pawns
-                if(row==1 || row==6) 							   PiecesOnBoard[row][col] = new Pawn	(this, (row==1)?Bp : Wp, row, col);
+                if(row==1 || row==6){
+                	if(gameMode.equals("Pieces Féériques") && col == 4)
+                		PiecesOnBoard[row][col] = new FeeriqPawn(this, (row==1)?Bp : Wp, row, col);
+                	else
+                		PiecesOnBoard[row][col] = new Pawn(this, (row==1)?Bp : Wp, row, col);
+                }
                 //ajout des Knights
-                if((row==0 || row == 7) && (col == 1 || col == 6)) PiecesOnBoard[row][col] = new Knight	(this, (row==0)?Bp : Wp, row, col);
+                if((row==0 || row == 7) && (col == 1 || col == 6)) {
+                	if(gameMode.equals("Pieces Féériques"))
+                			PiecesOnBoard[row][col] = new FeeriqPrincesse(this, (row==0)?Bp : Wp, row, col);
+                	else
+                		PiecesOnBoard[row][col] = new Knight(this, (row==0)?Bp : Wp, row, col);
+                }
+                
                 //ajout des Rooks
                 if((row==0 || row == 7) && (col == 0 || col == 7)) PiecesOnBoard[row][col] = new Rook	(this, (row==0)?Bp : Wp, row, col);
                 //ajout des Bishops
-                if((row==0 || row == 7) && (col == 2 || col == 5)) PiecesOnBoard[row][col] = new Bishop	(this, (row==0)?Bp : Wp, row, col);
+                if((row==0 || row == 7) && (col == 2 || col == 5)) {
+                	if(gameMode.equals("Pieces Féériques"))
+                		PiecesOnBoard[row][col] = new FeeriqBishop(this, (row==0)?Bp : Wp, row, col);
+                	else 
+                		PiecesOnBoard[row][col] = new Bishop(this, (row==0)?Bp : Wp, row, col);
+                }
                 //ajout des Queens
-                if((row==0 || row == 7) && (col == 3)) 			   PiecesOnBoard[row][col] = new Queen	(this, (row==0)?Bp : Wp, row, col);
+                if((row==0 || row == 7) && (col == 3)) {
+                	if(gameMode.equals("Pieces Féériques"))
+            			PiecesOnBoard[row][col] = new FeeriqFakeQueen(this, (row==0)?Bp : Wp, row, col);
+                	else
+                		PiecesOnBoard[row][col] = new Queen	(this, (row==0)?Bp : Wp, row, col);
+                }
                 //ajout des Kings
-                if((row==0 || row == 7) && (col == 4)) 			   PiecesOnBoard[row][col] = new King	(this, (row==0)?Bp : Wp, row, col);
+                if((row==0 || row == 7) && (col == 4)) PiecesOnBoard[row][col] = new King	(this, (row==0)?Bp : Wp, row, col);
                 
                
             }
@@ -316,13 +337,6 @@ public class ChessBoard extends JFrame implements MouseListener{
 		blackDefCell = getDefCell("black");
 
     }
-	// kt7t king f move okatchuf wach aykun f check
-	public boolean isSafe(King king) {
-		setPiece(2, 3, king);// khdama kt7t kingTest f 2,3
-		// ncheckiw db wch kingTest fih check wla la
-		setPiece(king.getY(), king.getX(), null); // n7ydo kingTest li zdna
-		return king.kingOnCapture();
-	}
 
 
 
@@ -345,7 +359,6 @@ public class ChessBoard extends JFrame implements MouseListener{
 		else if (e.getButton() == MouseEvent.BUTTON3) {
 			Move moveTo =  Move.mouseCoordToBoardCoord(e.getX(), e.getY());
 			if(PieceSelected != null) {
-				
 				
 				// detecte le moment roquer
 				if(PieceSelected instanceof King) {
@@ -391,9 +404,6 @@ public class ChessBoard extends JFrame implements MouseListener{
 		if(bKing.isInCheck()) {
 			highlightSelected(bKing);
 		}
-		if(PieceSelected!=null)
-			System.out.println(PieceSelected.getX());
-		affiche2d(PiecesOnBoard);
 		
 	}
 		
@@ -402,6 +412,7 @@ public class ChessBoard extends JFrame implements MouseListener{
     public Player getWhitePlayer() {return this.whitePlayer;}
 	public Player getBlackPlayer() {return this.blackPlayer;}
 	public String getGameMode() { return this.gameMode;}
+	public static int getTurn() { return turn;}
 	public List<ChessPiece> getWpiecesOnBoard(){ return this.WpiecesOnBoard;}
 	public List<ChessPiece> getBpiecesOnBoard(){ return this.BpiecesOnBoard;}
 	public List<Move> getWhiteDefCell(){ return this.whiteDefCell;}

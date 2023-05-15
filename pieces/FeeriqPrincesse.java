@@ -19,7 +19,13 @@ public class FeeriqPrincesse extends ChessPiece{
 	public List<Move> PieceMoves() {
 		ChessPiece b = new Bishop(board_, player_, y_, x_);
 		ChessPiece k = new Knight(board_, player_, y_, x_);
-		return Stream.concat(b.PieceMoves().stream(), k.PieceMoves().stream()).toList();
+		
+		List<Move> bMoves = b.PieceMoves();
+		List<Move> kMoves = k.PieceMoves();
+		
+		this.toCapture = Stream.concat(b.getToCapture().stream(), k.getToCapture().stream()).toList();
+		
+		return Stream.concat(bMoves.stream(), kMoves.stream()).toList();
 	}
 
 	@Override

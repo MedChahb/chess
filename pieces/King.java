@@ -6,6 +6,7 @@ import java.util.List;
 import chessBoard.ChessBoard;
 import player.Move;
 import player.Player;
+import menu.*;
 
 public class King extends ChessPiece {
     private boolean inCheck = false;
@@ -46,6 +47,18 @@ public class King extends ChessPiece {
         	int ligne = player_.PlayerisWhite()? 7 : 0;
         	move = new Move(6,ligne);
         	Moves.add(move);
+        }
+        if(Moves.size() == 0 && inCheck) { // condition du checkMate
+        	gameEnded end = new gameEnded(player_.PlayerisWhite()? String.format("%s a gagné avec checkmate", board_.getBlackPlayer().getPlayerName())
+        														: String.format("%s a gagné avec checkmate", board_.getWhitePlayer().getPlayerName()));
+        }
+        else {
+        	// allies moves
+        	List<Move> defCell = (player_.PlayerisWhite()) ? board_.getWhiteDefCell() : board_.getBlackDefCell();
+        	if(Moves.size() == 0 && !inCheck && defCell.size()==0) { // condition staleMate
+        		// pop toujour :(
+        		//gameEnded end = new gameEnded("partie null avec stalemate");	
+        	}
         }
         return Moves;
     }
